@@ -1,4 +1,5 @@
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -55,26 +56,23 @@ public class ClassUtil {
             obj.save(parent4);
             obj.save(child2);
 
-            /*educateBuilding1.setChildren(Arrays.asList(child1, child2));
-            obj.save(educateBuilding1);
             Parents p = obj.findById(1);
             System.out.println("{" + p.getId() + "}{" + p.getFirst_name() + "}{" + p.getLastName() + "}{" + p.getAge() + "}");
             String nameObject = "Parents";
             String nameValue = "last_name";
             //List<Parents> list2 = obj.getObjFromTable(nameObject,nameValue, Arrays.<Object>asList(new Integer[] { 24, 27}));
-            List<Parents> list2 = obj.getObjFromTable(nameObject, nameValue, Arrays.<Object>asList(new String[]{"Петров", "Петровна"}));
+            Set<Parents> list2 = obj.getObjFromTable(nameObject, nameValue, (Set) Arrays.<Object>asList(new String[]{"Петров", "Петровна"}));
             System.out.println(list2);
 
             String objParents = "Parents";
-            List<Parents> list = obj.getObjFromTable(objParents);
+            Set<Parents> list = obj.getObjFromTable(objParents);
             System.out.println(list);
             for (Parents pAll : list) {
                 System.out.println("{" + pAll.getId() + "}{" + pAll.getFirst_name() + "}{" + pAll.getLastName() + "}{" + pAll.getAge() + "}");
             }
-            List<ObjectDAO> list3 = obj.getObjFromTable("Parents", "");
+            Set<ObjectDAO> list3 = obj.getObjFromTable("Parents", "");
             obj.getObjFromTable();
-            System.out.println(list3.get(1));
-            System.out.println((Children) list3);*/
+            System.out.println((Children) list3);
         }   catch (Exception e) {
                 System.out.println("Ошибка работы с данных:");
             }

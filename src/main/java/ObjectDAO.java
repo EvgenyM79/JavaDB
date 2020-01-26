@@ -10,9 +10,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import javax.swing.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.function.Supplier;
 
 public class ObjectDAO implements IObjectDAO {
@@ -60,13 +58,13 @@ public class ObjectDAO implements IObjectDAO {
     }
 
     @Override
-    public List getObjFromTable(String nameObj) throws SQLException {
+    public Set getObjFromTable(String nameObj) throws SQLException {
         String query = "FROM " + nameObj;
-        List listObjs = new ArrayList<Object>();
+        Set listObjs = new HashSet<>();
         try {
             Session session = HibernateUtils.getSessionFactory().openSession();
             Transaction tx1 = session.beginTransaction();
-            listObjs = session.createQuery(query).list();
+            listObjs = (Set)session.createQuery(query).list();
             tx1.commit();
             session.close();
         } catch (Exception e) {
@@ -76,13 +74,13 @@ public class ObjectDAO implements IObjectDAO {
     }
 
     @Override
-    public List getObjFromTable(String nameObj,String nameValue, List<Object> ids) throws SQLException {
+    public Set getObjFromTable(String nameObj, String nameValue, Set<Object> ids) throws SQLException {
         String query = "SELECT p FROM " + nameObj + " p WHERE p." + nameValue + " IN :ids";
-        List listObjs = new ArrayList<Object>();
+        Set listObjs = new HashSet();
         try {
             Session session = HibernateUtils.getSessionFactory().openSession();
             Transaction tx1 = session.beginTransaction();
-            listObjs = session.createQuery(query).setParameter("ids", ids).getResultList();
+            listObjs = (Set) session.createQuery(query).setParameter("ids", ids).getResultList();
             tx1.commit();
             session.close();
         } catch (Exception e) {
@@ -92,8 +90,8 @@ public class ObjectDAO implements IObjectDAO {
     }
 
     @Override
-    public List getObjFromTable(String nameObj, String queryString) throws SQLException {
-        List results = null;
+    public Set getObjFromTable(String nameObj, String queryString) throws SQLException {
+        Set results = null;
         try {
             Session session = HibernateUtils.getSessionFactory().openSession();
             Transaction tx1 = session.beginTransaction();
@@ -120,7 +118,7 @@ public class ObjectDAO implements IObjectDAO {
 
 
     @Override
-    public <T>List getObjFromTable() throws SQLException {
+    public <T>Set getObjFromTable() throws SQLException {
         List results = null;
         //EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("db2");
         //entityManagerFactory.createEntityManager();
