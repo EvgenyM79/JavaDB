@@ -105,7 +105,7 @@ public class Children implements Serializable {
 
     @Override
     public String toString(){
-        return "{" + child_id + "} {" + first_name + "} {" + last_name + "} {" + age + "}\n";
+        return "{id : " + child_id + "} {first_name : " + first_name + "} {last_name : " + last_name + "} {age : " + age + "}\n";
     }
 
     //public void setParents(Set<Parents> parents) {

@@ -1,17 +1,15 @@
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Root;
 import javax.swing.*;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.function.Supplier;
 
 public class ObjectDAO implements IObjectDAO {
 
@@ -74,6 +72,23 @@ public class ObjectDAO implements IObjectDAO {
     }
 
     @Override
+    public List<EducateBuilding> getObjFromTable(String nameObj, String val) throws SQLException {
+        //String query = "FROM " + nameObj + " WHERE "+ nameObj + ".as_area = " + val;
+        String query = "select ebuilding.eb_name FROM ebuilding WHERE ebuilding.as_area = \"Октябрьский\"";
+        List<EducateBuilding> listObjs = new ArrayList<EducateBuilding>();
+        try {
+            Session session = HibernateUtils.getSessionFactory().openSession();
+            Transaction tx1 = session.beginTransaction();
+            listObjs = session.createQuery(query).list();
+            tx1.commit();
+            session.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка чтения данных:" + nameObj, JOptionPane.OK_OPTION);
+        }
+        return listObjs;
+    }
+
+    /*@Override
     public List getObjFromTable(String nameObj,String nameValue, List<Object> ids) throws SQLException {
         String query = "SELECT p FROM " + nameObj + " p WHERE p." + nameValue + " IN :ids";
         List listObjs = new ArrayList<Object>();
@@ -89,6 +104,8 @@ public class ObjectDAO implements IObjectDAO {
         return listObjs;
     }
 
+     //Запрос на выборку по одинаковой фамилии (актуально, если нужно найти только Мужчин и мальчиков)
+     //работает, но нужно дорабатывать
     @Override
     public List getObjFromTable(String nameObj, String queryString) throws SQLException {
         List results = null;
@@ -106,7 +123,7 @@ public class ObjectDAO implements IObjectDAO {
             for (Object[] objects : list) {
                 Parents parents = (Parents) objects[0];
                 Children children = (Children) objects[1];
-                System.out.println("EMP NAME="+ parents.getFirst_name()+"\t DEPT NAME="+ children.getFirst_name());
+                System.out.println(""+ parents.getFirst_name()+"\t DEPT NAME="+ children.getFirst_name());
             }
             tx1.commit();
             session.close();
@@ -115,7 +132,7 @@ public class ObjectDAO implements IObjectDAO {
         }
         return null;
     }
-
+*/
 
     @Override
     public <T>List getObjFromTable() throws SQLException {
@@ -136,24 +153,25 @@ public class ObjectDAO implements IObjectDAO {
             Session session = HibernateUtils.getSessionFactory().openSession();
             Transaction tx1 = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<Parents> criteriaQuery = builder.createQuery(Parents.class);
+            CriteriaQuery<EducateBuilding> criteriaQuery = builder.createQuery(EducateBuilding.class);
             //CriteriaQuery<Children> cq = criteriaQuery.select(answers);
-            Root<Parents> parentsRoot = criteriaQuery.from(Parents.class);
+            Root<EducateBuilding> educateBuildingRoot = criteriaQuery.from(EducateBuilding.class);
             Root<Children> childrenRoot = criteriaQuery.from(Children.class);
             criteriaQuery.where(builder.equal(childrenRoot.get(Children_.child_id), "child_id"));
-            Join<Children, Parents> parentsChildrenJoin = childrenRoot.join("children");
-            CriteriaQuery<Parents> cq = criteriaQuery.select(parentsChildrenJoin);
-            TypedQuery<T> query = (TypedQuery<T>) session.createQuery(cq);
+            Join<Children, EducateBuilding> childrenEducateBuildingJoin = childrenRoot.join("children");
+            CriteriaQuery<EducateBuilding> educateBuildingCriteriaQuery = criteriaQuery.select(childrenEducateBuildingJoin);
+            TypedQuery<T> query = (TypedQuery<T>) session.createQuery(educateBuildingCriteriaQuery);
             List<T> list = query.getResultList();
             for (Object objects : list) {
-                Parents parents = (Parents) objects;
+                EducateBuilding educateBuilding = (EducateBuilding) objects;
                 Children children = (Children) objects;
-                System.out.println("EMP NAME=" + parents.getFirst_name() + "\t DEPT NAME=" + children.getFirst_name());
+                System.out.println("EMP NAME=" + educateBuilding.getAreaStreet() + "\t DEPT NAME=" + children.getFirst_name());
     /*select c from Category c " +
             "join c.categorizedItems ci " +
             "where ci.item = :itemParameter")
             .setParameter("itemParameter", item)
     .getResultList();*/
+
             }
             tx1.commit();
             session.close();
@@ -163,7 +181,18 @@ public class ObjectDAO implements IObjectDAO {
         return null;
     }
 
-    public Parents findById(int id) {
+    @Override
+    public Parents findByIdParent(int id) {
         return HibernateUtils.getSessionFactory().openSession().get(Parents.class, id);
+    }
+
+    @Override
+    public Children findByIdChild(int id) {
+        return HibernateUtils.getSessionFactory().openSession().get(Children.class, id);
+    }
+
+    @Override
+    public EducateBuilding findByIdEducation(int id) {
+        return HibernateUtils.getSessionFactory().openSession().get(EducateBuilding.class, id);
     }
 }

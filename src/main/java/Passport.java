@@ -10,9 +10,6 @@ public class Passport implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int passport_id;
 
-    @Column(name = "street_id", insertable = false, updatable = false, nullable = false)
-    private int street_id;
-
     @Column(name = "ser_passport", nullable = false)
     private String ser_passport;
 
@@ -31,18 +28,19 @@ public class Passport implements Serializable{
     @OneToOne(mappedBy = "passport")
     private Parents parent;
 
-    @ManyToOne
-    @JoinColumn(name = "street_id")
+    @Embedded
+    @AttributeOverrides({ @AttributeOverride(name = "street", column = @Column(name = "as_area", insertable = false, updatable = false, nullable = false)) })
     private AreaStreet areaStreet;
 
     public Passport(){}
 
-    public Passport(String ser_passport, int n_passport, String street, int n_building, int n_room) {
+    public Passport(String ser_passport, int n_passport, String street, int n_building, int n_room, AreaStreet areaStreet) {
         this.ser_passport = ser_passport;
         this.n_passport = n_passport;
         this.street = street;
         this.n_building = n_building;
         this.n_room = n_room;
+        this.areaStreet = areaStreet;
     }
 
     public int getPassport_id() {
@@ -51,14 +49,6 @@ public class Passport implements Serializable{
 
     public void setPassport_id(int passport_id) {
         this.passport_id = passport_id;
-    }
-
-    public int getStreet_id() {
-        return street_id;
-    }
-
-    public void setStreet_id(int street_id) {
-        this.street_id = street_id;
     }
 
     public String getSer_passport() {
@@ -119,7 +109,7 @@ public class Passport implements Serializable{
 
     @Override
     public String toString(){
-        return "{" + passport_id + "} {" + ser_passport + "} {" + n_passport + "} {" + n_building + "}{" + n_room + "}\n";
+        return "{id : " + passport_id + "} {ser passport : " + ser_passport + "} {n passport : " + n_passport +"}{Район : " + areaStreet.getAs_area() + "}{street : " + street + "}{n building : " + n_building + "}{n room : " + n_room + "}\n";
     }
 
 

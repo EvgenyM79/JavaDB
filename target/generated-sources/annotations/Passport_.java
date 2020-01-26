@@ -13,7 +13,6 @@ public abstract class Passport_ {
 	public static volatile SingularAttribute<Passport, Integer> n_passport;
 	public static volatile SingularAttribute<Passport, Integer> n_room;
 	public static volatile SingularAttribute<Passport, AreaStreet> areaStreet;
-	public static volatile SingularAttribute<Passport, Integer> street_id;
 	public static volatile SingularAttribute<Passport, Integer> passport_id;
 
 	public static final String PARENT = "parent";
@@ -23,7 +22,6 @@ public abstract class Passport_ {
 	public static final String N_PASSPORT = "n_passport";
 	public static final String N_ROOM = "n_room";
 	public static final String AREA_STREET = "areaStreet";
-	public static final String STREET_ID = "street_id";
 	public static final String PASSPORT_ID = "passport_id";
 
 }

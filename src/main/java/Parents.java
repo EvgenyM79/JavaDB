@@ -94,6 +94,6 @@ public class Parents implements Serializable {
 
     @Override
     public String toString(){
-        return "{" + parent_id + "} {" + first_name + "} {" + last_name + "} {" + age + "}\n";
+        return "{id : " + parent_id + "} {fist_name : " + first_name + "} {last_name : " + last_name + "} {age : " + age + "}\n";
     }
 }

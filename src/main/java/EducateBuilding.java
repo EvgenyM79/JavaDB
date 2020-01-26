@@ -6,7 +6,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "ebuilding")
-//@SecondaryTable(name="areastreet")
 public class EducateBuilding {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,24 +17,23 @@ public class EducateBuilding {
     @Column(name = "eb_street", nullable = false)
     private String eb_street;
 
-   /* @Column(table = "as_id")
-    private int as_id;
-
-    @Column(table = "areastreet")
-    private String as_area;*/
-
     @Column(name = "eb_n", nullable = false)
     private int eb_n;
 
     @OneToMany (mappedBy = "eb_id", fetch = FetchType.LAZY)
     private Set<Children> children = new HashSet<>();
 
+    @Embedded
+    @AttributeOverrides({ @AttributeOverride(name = "street", column = @Column(name = "as_area", insertable = false, updatable = false, nullable = false)) })
+    private AreaStreet areaStreet;
+
     public EducateBuilding(){}
 
-    public EducateBuilding(String eb_name, String eb_street, int eb_n) {
+    public EducateBuilding(String eb_name, String eb_street, int eb_n, AreaStreet areaStreet) {
         this.eb_name = eb_name;
         this.eb_street = eb_street;
         this.eb_n = eb_n;
+        this.areaStreet = areaStreet;
     }
 
     public int getEb_id() {
@@ -62,14 +60,6 @@ public class EducateBuilding {
         this.eb_street = eb_street;
     }
 
-   /* public String getAs_area() {
-        return as_area;
-    }
-
-    public void setAs_area(String as_area) {
-        this.as_area = as_area;
-    }*/
-
     public int getEb_n() {
         return eb_n;
     }
@@ -86,9 +76,17 @@ public class EducateBuilding {
         this.children = children;
     }
 
+    public AreaStreet getAreaStreet() {
+        return areaStreet;
+    }
+
+    public void setAreaStreet(AreaStreet areaStreet) {
+        this.areaStreet = areaStreet;
+    }
+
     @Override
     public String toString(){
-        return "{" + ebuilding_id+ "} {" + eb_name + "} {" + eb_street + "} {" + eb_n + "}\n";
+        return "{" + ebuilding_id+ "} {" + eb_name + "}{Район : " + areaStreet.getAs_area() + "}{" + eb_street + "} {" + eb_n + "}\n";
     }
 
 }
