@@ -58,13 +58,13 @@ public class ObjectDAO implements IObjectDAO {
     }
 
     @Override
-    public Set getObjFromTable(String nameObj) throws SQLException {
+    public List getObjFromTable(String nameObj) throws SQLException {
         String query = "FROM " + nameObj;
-        Set listObjs = new HashSet<>();
+        List listObjs = new ArrayList<Object>();
         try {
             Session session = HibernateUtils.getSessionFactory().openSession();
             Transaction tx1 = session.beginTransaction();
-            listObjs = (Set)session.createQuery(query).list();
+            listObjs = session.createQuery(query).list();
             tx1.commit();
             session.close();
         } catch (Exception e) {
@@ -74,13 +74,13 @@ public class ObjectDAO implements IObjectDAO {
     }
 
     @Override
-    public Set getObjFromTable(String nameObj, String nameValue, Set<Object> ids) throws SQLException {
+    public List getObjFromTable(String nameObj,String nameValue, List<Object> ids) throws SQLException {
         String query = "SELECT p FROM " + nameObj + " p WHERE p." + nameValue + " IN :ids";
-        Set listObjs = new HashSet();
+        List listObjs = new ArrayList<Object>();
         try {
             Session session = HibernateUtils.getSessionFactory().openSession();
             Transaction tx1 = session.beginTransaction();
-            listObjs = (Set) session.createQuery(query).setParameter("ids", ids).getResultList();
+            listObjs = session.createQuery(query).setParameter("ids", ids).getResultList();
             tx1.commit();
             session.close();
         } catch (Exception e) {
@@ -90,8 +90,8 @@ public class ObjectDAO implements IObjectDAO {
     }
 
     @Override
-    public Set getObjFromTable(String nameObj, String queryString) throws SQLException {
-        Set results = null;
+    public List getObjFromTable(String nameObj, String queryString) throws SQLException {
+        List results = null;
         try {
             Session session = HibernateUtils.getSessionFactory().openSession();
             Transaction tx1 = session.beginTransaction();
@@ -118,7 +118,7 @@ public class ObjectDAO implements IObjectDAO {
 
 
     @Override
-    public <T>Set getObjFromTable() throws SQLException {
+    public <T>List getObjFromTable() throws SQLException {
         List results = null;
         //EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("db2");
         //entityManagerFactory.createEntityManager();

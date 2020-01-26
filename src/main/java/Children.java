@@ -2,7 +2,9 @@ import org.dom4j.tree.AbstractEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -30,7 +32,7 @@ public class Children implements Serializable {
     @JoinTable(name = "parents_has_children",
             joinColumns = { @JoinColumn(name = "idChild") },
             inverseJoinColumns = { @JoinColumn(name = "idParent") })
-    private Set<Parents> parents = new HashSet<Parents>();
+    private List<Parents> parents = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "eb_id")
@@ -85,11 +87,11 @@ public class Children implements Serializable {
         this.age = age;
     }
 
-    public Set<Parents> getParents() {
+    public List<Parents> getParents() {
         return parents;
     }
 
-    public void setParents(Set<Parents> parents) {
+    public void setParents(List<Parents> parents) {
         this.parents = parents;
     }
 

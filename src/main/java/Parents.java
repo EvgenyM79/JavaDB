@@ -29,7 +29,7 @@ public class Parents implements Serializable {
     @JoinTable(name = "parents_has_children",
             joinColumns = { @JoinColumn(name = "idParent") },
             inverseJoinColumns = { @JoinColumn(name = "idChild") })
-    private Set<Children> children = new HashSet<>();
+    private List<Children> children = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "passport_id", nullable = false)
@@ -76,11 +76,11 @@ public class Parents implements Serializable {
     }
 
     //public Set<Children> getChild() {
-    public Set<Children> getChildren() {
+    public List<Children> getChildren() {
         return children;
     }
     //public void setChild(Set<Children> children ) {
-    public void setChild(Set<Children> children ) {
+    public void setChild(List<Children> children ) {
         this.children = children;
     }
 

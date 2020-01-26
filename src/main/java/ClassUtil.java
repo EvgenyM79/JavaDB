@@ -1,6 +1,7 @@
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ClassUtil {
@@ -61,20 +62,21 @@ public class ClassUtil {
             String nameObject = "Parents";
             String nameValue = "last_name";
             //List<Parents> list2 = obj.getObjFromTable(nameObject,nameValue, Arrays.<Object>asList(new Integer[] { 24, 27}));
-            Set<Parents> list2 = obj.getObjFromTable(nameObject, nameValue, (Set) Arrays.<Object>asList(new String[]{"Петров", "Петровна"}));
+            List<Parents> list2 = obj.getObjFromTable(nameObject, nameValue, Arrays.<Object>asList(new String[]{"Петров", "Петровна"}));
             System.out.println(list2);
 
             String objParents = "Parents";
-            Set<Parents> list = obj.getObjFromTable(objParents);
+            List<Parents> list = obj.getObjFromTable(objParents);
             System.out.println(list);
             for (Parents pAll : list) {
                 System.out.println("{" + pAll.getId() + "}{" + pAll.getFirst_name() + "}{" + pAll.getLastName() + "}{" + pAll.getAge() + "}");
             }
-            Set<ObjectDAO> list3 = obj.getObjFromTable("Parents", "");
+            List<ObjectDAO> list3 = obj.getObjFromTable("Parents", "");
             obj.getObjFromTable();
+            System.out.println(list3.get(1));
             System.out.println((Children) list3);
-        }   catch (Exception e) {
-                System.out.println("Ошибка работы с данных:");
-            }
+        } catch (Exception e) {
+            System.out.println("Ошибка работы с данных:");
+        }
     }
 }
