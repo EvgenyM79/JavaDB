@@ -1,5 +1,5 @@
 import javax.annotation.Generated;
-import javax.persistence.metamodel.SetAttribute;
+import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
@@ -8,7 +8,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class Parents_ {
 
 	public static volatile SingularAttribute<Parents, Passport> passport;
-	public static volatile SetAttribute<Parents, Children> children;
+	public static volatile ListAttribute<Parents, Children> children;
 	public static volatile SingularAttribute<Parents, Integer> parent_id;
 	public static volatile SingularAttribute<Parents, String> last_name;
 	public static volatile SingularAttribute<Parents, String> first_name;
