@@ -1,11 +1,13 @@
-import org.dom4j.tree.AbstractEntity;
+/**
+ * Создание сущности(таблицы) ребенок со связями
+ * ребенок М:М родитель
+ * ребенок М:1 учебное заведение
+ */
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "children")
@@ -107,7 +109,4 @@ public class Children implements Serializable {
     public String toString(){
         return "{id : " + child_id + "} {first_name : " + first_name + "} {last_name : " + last_name + "} {age : " + age + "}\n";
     }
-
-    //public void setParents(Set<Parents> parents) {
-
 }

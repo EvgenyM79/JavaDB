@@ -1,7 +1,12 @@
+/**
+ * Создание сущности(таблицы) учебное заведение со связями
+ * учебное заведение 1:М ребенок
+ * ребенок М:1 учебное заведение
+ * Используется вложенная сущность ОбластьУлица
+ */
+
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity

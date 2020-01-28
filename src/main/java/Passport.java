@@ -1,4 +1,8 @@
-//import org.hibernate.annotations.Table;
+/**
+ * Создание сущности(таблицы) паспорт со связями
+ * паспорт 1:1 родитель
+ * Используется вложенная сущность ОбластьУлица
+ */
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -111,8 +115,5 @@ public class Passport implements Serializable{
     public String toString(){
         return "{id : " + passport_id + "} {ser passport : " + ser_passport + "} {n passport : " + n_passport +"}{Район : " + areaStreet.getAs_area() + "}{street : " + street + "}{n building : " + n_building + "}{n room : " + n_room + "}\n";
     }
-
-
-
 
 }

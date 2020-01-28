@@ -1,3 +1,7 @@
+/**
+ * Используется при создание сессии для подключения к БД
+ */
+
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 

@@ -1,9 +1,10 @@
+/**
+ * Создание вложенной сущности ОбластьУлица из двух полей: улица - область
+ * Эта сущность будет вставлятся в таблицу с паспортами и учебными заведениями
+ */
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Embeddable
 public class AreaStreet implements Serializable {

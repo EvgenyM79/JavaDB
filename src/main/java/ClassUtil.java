@@ -1,9 +1,3 @@
-import org.hibernate.Session;
-import org.hibernate.jpa.boot.spi.EntityManagerFactoryBuilder;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -11,6 +5,7 @@ public class ClassUtil{
 
     public void startProject() throws SQLException, Exception {
         try {
+            System.out.println("Создание структуры БД и занесение первоначальной информаци");
             ObjectDAO obj = new ObjectDAO();
             Parents parent1 = new Parents("Иван", "Петров", 36);
             AreaStreet areaStreet = new AreaStreet("Куйбышева", "Октябрьский");
@@ -70,13 +65,14 @@ public class ClassUtil{
             educateBuilding5 = new EducateBuilding("Школа № 5", "Ленина", 9, areaStreet5);
             obj.save(educateBuilding5);
 
-
+            System.out.println("Вывод всего списка людей");
             //Вывод всех людей
             String objParents = "Parents";
             List<Parents> list = obj.getObjFromTable(objParents);
             System.out.println(list + "\n");
 
- //Вывод всех параметров по одному человеку
+             //Вывод всех параметров по одному человеку
+            System.out.println("Вывод всей информации по одному человеку, включая паспорт и детей");
             Parents p = obj.findByIdParent(1);
             Passport pt = p.getPassport();
             System.out.println(p);
@@ -89,37 +85,31 @@ public class ClassUtil{
             }
             System.out.println("\n");
 
-
-
             //Вывод всех параметров по одному ребенку
-            System.out.println("dfdf");
+            System.out.println("Вывод всей информации по ребенку у которого планируем изменить учебное заведение:");
             Children ch = obj.findByIdChild(3);
             EducateBuilding eb = obj.findByIdEducation(ch.getEb_id());
-            System.out.println(ch);
+            System.out.println("Изменить учебное заведение у ребенка: " + ch);
             System.out.println(eb + "\n");
-            System.out.println(eb.getAreaStreet().getAs_area());
+            System.out.println("Район в котором меняем: " + eb.getAreaStreet().getAs_area());
 
             //Вывод всех параметров по школам в одном районе
-            List<EducateBuilding> listEducation = obj.getObjFromTable("ebuilding", String.valueOf(eb.getAreaStreet().getAs_area()));
-            System.out.println(listEducation);
-
-            ch.setEducateBuilding(listEducation.get(1));
-            obj.update(ch);
+            List<EducateBuilding> listEducation = obj.getObjFromTable("EducateBuilding", String.valueOf(eb.getAreaStreet().getAs_area()));
+            int j = 0;
+            System.out.println("Список учебных заведений в этом районе");
+            for (EducateBuilding ed5: listEducation){
+                System.out.println("Номер записи: " + j++ + ed5);
+            }
+            System.out.println("Вввежди номер учебного заведения для изменения у ребенка");
+            Scanner sc = new Scanner(System.in);
+            int nEducationBuilding = sc.nextInt();
+            ch.setEducateBuilding(listEducation.get(nEducationBuilding));
+            obj.merge(ch);
+            System.out.println("Теперь у ребенка:");
             System.out.println(ch);
+            System.out.println("Учебное заведение:");
             System.out.println(ch.getEducateBuilding());
 
-            // Реализация функции с забором всех обьектов с набором фамилий или с набором возрастов
-/*            String nameObject = "Parents";
-            String nameValue = "last_name";
-            //List<Parents> list2 = obj.getObjFromTable(nameObject,nameValue, Arrays.<Object>asList(new Integer[] { 27, 32}));
-            List<Parents> list3 = obj.getObjFromTable(nameObject, nameValue, Arrays.<Object>asList(new String[]{"Петров", "Петровна", "Сергеевич"}));
-            //System.out.println("Вывести всех у кого возраст 27 или 32 года\n" + list2);
-            System.out.println("Вывести всех людей у кого ФИО: \"Петров\", \"Петровна\", \"Сергеевич\"\n" + list3);
-*/
-            //List<ObjectDAO> list3 = obj.getObjFromTable("Parents", "");
-            //obj.getObjFromTable();
-            //System.out.println(list3.get(1));
-            //System.out.println(list3);*/
         } catch (Exception e) {
             System.out.println("Ошибка работы с данных:");
         }
