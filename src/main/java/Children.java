@@ -16,7 +16,7 @@ public class Children implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int child_id;
 
-    @Column(name = "eb_id", insertable = false, updatable = false, nullable = false)
+    @Column(name = "eb_id", insertable = false, updatable = false)
     private int eb_id;
 
     @Column(name = "first_name")

@@ -1,20 +1,26 @@
+import org.hibernate.Session;
+import org.hibernate.jpa.boot.spi.EntityManagerFactoryBuilder;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.sql.SQLException;
 import java.util.*;
 
-public class ClassUtil {
+public class ClassUtil{
 
     public void startProject() throws SQLException, Exception {
         try {
             ObjectDAO obj = new ObjectDAO();
-            /*Parents parent1 = new Parents("Иван", "Петров", 36);
+            Parents parent1 = new Parents("Иван", "Петров", 36);
             AreaStreet areaStreet = new AreaStreet("Куйбышева", "Октябрьский");
             Passport passport1 = new Passport("6403", 333234543, "Куйбышева", 57, 7, areaStreet);
             AreaStreet areaStreet2 = new AreaStreet("Первомайская", "Октябрьский");
             Children child1 = new Children("Миша", "Петров", 5);
             EducateBuilding educateBuilding1 = new EducateBuilding("Школа № 23", "Первомайская", 7, areaStreet2);
-            AreaStreet areaStreet3 = new AreaStreet("Ленина", "Центральный");
+            AreaStreet areaStreet3 = new AreaStreet("Декабристов", "Октябрьский");
             Children child2 = new Children("Анна", "Петровна", 2);
-            EducateBuilding educateBuilding2 = new EducateBuilding("Школа № 12", "Ленина", 15, areaStreet3);
+            EducateBuilding educateBuilding2 = new EducateBuilding("Школа № 12", "Декабристов", 15, areaStreet3);
             parent1.setPassport(passport1);
             child1.setEducateBuilding(educateBuilding1);
             child2.setEducateBuilding(educateBuilding2);
@@ -36,6 +42,7 @@ public class ClassUtil {
             obj.save(child2);
 
 
+
             Parents parent3 = new Parents("Николай", "Сергеевич", 32);
             areaStreet = new AreaStreet("Гоголя", "Октябрьский");
             Passport passport3 = new Passport("6573", 333124543, "Гоголя", 44, 9,areaStreet);
@@ -53,9 +60,18 @@ public class ClassUtil {
             obj.save(passport4);
             obj.save(parent3);
             obj.save(parent4);
-            obj.save(child3);*/
+            obj.save(child3);
 
- //Вывод всех людей
+            AreaStreet areaStreet5 = new AreaStreet("Тверитина", "Октябрьский");
+            EducateBuilding educateBuilding5 = new EducateBuilding("Школа № 27", "Тверитина", 30, areaStreet5);
+            obj.save(educateBuilding5);
+
+            areaStreet5 = new AreaStreet("Ленина", "Центральный");
+            educateBuilding5 = new EducateBuilding("Школа № 5", "Ленина", 9, areaStreet5);
+            obj.save(educateBuilding5);
+
+
+            //Вывод всех людей
             String objParents = "Parents";
             List<Parents> list = obj.getObjFromTable(objParents);
             System.out.println(list + "\n");
@@ -74,6 +90,7 @@ public class ClassUtil {
             System.out.println("\n");
 
 
+
             //Вывод всех параметров по одному ребенку
             System.out.println("dfdf");
             Children ch = obj.findByIdChild(3);
@@ -86,11 +103,13 @@ public class ClassUtil {
             List<EducateBuilding> listEducation = obj.getObjFromTable("ebuilding", String.valueOf(eb.getAreaStreet().getAs_area()));
             System.out.println(listEducation);
 
+            ch.setEducateBuilding(listEducation.get(1));
+            obj.update(ch);
+            System.out.println(ch);
+            System.out.println(ch.getEducateBuilding());
 
-
-
-            /*// Реализация функции с забором всех обьектов с набором фамилий или с набором возрастов
-            String nameObject = "Parents";
+            // Реализация функции с забором всех обьектов с набором фамилий или с набором возрастов
+/*            String nameObject = "Parents";
             String nameValue = "last_name";
             //List<Parents> list2 = obj.getObjFromTable(nameObject,nameValue, Arrays.<Object>asList(new Integer[] { 27, 32}));
             List<Parents> list3 = obj.getObjFromTable(nameObject, nameValue, Arrays.<Object>asList(new String[]{"Петров", "Петровна", "Сергеевич"}));

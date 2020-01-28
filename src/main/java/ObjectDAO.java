@@ -34,7 +34,7 @@ public class ObjectDAO implements IObjectDAO {
         try {
             Session session = HibernateUtils.getSessionFactory().openSession();
             Transaction tx1 = session.beginTransaction();
-            session.saveOrUpdate(obj);
+            session.merge(obj);
             tx1.commit();
             session.close();
         } catch (Exception e) {
@@ -74,7 +74,7 @@ public class ObjectDAO implements IObjectDAO {
     @Override
     public List<EducateBuilding> getObjFromTable(String nameObj, String val) throws SQLException {
         //String query = "FROM " + nameObj + " WHERE "+ nameObj + ".as_area = " + val;
-        String query = "select ebuilding.eb_name FROM ebuilding WHERE ebuilding.as_area = \"Октябрьский\"";
+        String query = "FROM EducateBuilding WHERE as_area = \'Октябрьский\'";
         List<EducateBuilding> listObjs = new ArrayList<EducateBuilding>();
         try {
             Session session = HibernateUtils.getSessionFactory().openSession();
@@ -183,16 +183,46 @@ public class ObjectDAO implements IObjectDAO {
 
     @Override
     public Parents findByIdParent(int id) {
-        return HibernateUtils.getSessionFactory().openSession().get(Parents.class, id);
+        Parents p = new Parents();
+        try {
+            Session session = HibernateUtils.getSessionFactory().openSession();
+            Transaction tx1 = session.beginTransaction();
+            p = HibernateUtils.getSessionFactory().openSession().get(Parents.class, id);
+            tx1.commit();
+            session.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка при вставке", JOptionPane.OK_OPTION);
+        }
+        return p;
     }
 
     @Override
     public Children findByIdChild(int id) {
-        return HibernateUtils.getSessionFactory().openSession().get(Children.class, id);
+        Children ch = new Children();
+        try {
+            Session session = HibernateUtils.getSessionFactory().openSession();
+            Transaction tx1 = session.beginTransaction();
+            ch = HibernateUtils.getSessionFactory().openSession().get(Children.class, id);
+            tx1.commit();
+            session.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка при вставке", JOptionPane.OK_OPTION);
+        }
+        return ch;
     }
 
     @Override
     public EducateBuilding findByIdEducation(int id) {
-        return HibernateUtils.getSessionFactory().openSession().get(EducateBuilding.class, id);
+        EducateBuilding eb = new EducateBuilding();
+        try {
+            Session session = HibernateUtils.getSessionFactory().openSession();
+            Transaction tx1 = session.beginTransaction();
+            eb = HibernateUtils.getSessionFactory().openSession().get(EducateBuilding.class, id);
+            tx1.commit();
+            session.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка при вставке", JOptionPane.OK_OPTION);
+        }
+        return eb;
     }
 }
